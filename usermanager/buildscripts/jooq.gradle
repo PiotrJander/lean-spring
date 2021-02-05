@@ -1,0 +1,52 @@
+jooq {
+  version = '3.11.12'
+  edition = 'OSS'
+  usermanager(sourceSets.main) {
+    jdbc {
+      driver = 'com.mysql.jdbc.Driver'
+      url = 'jdbc:mysql://localhost:33306/usermanager'
+      user = 'root'
+      password = 'root'
+    }
+    generator {
+      name = 'org.jooq.codegen.DefaultGenerator'
+      strategy {
+        name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+      }
+      database {
+        name = 'org.jooq.meta.mysql.MySQLDatabase'
+        inputSchema = 'usermanager'
+        forcedTypes {
+          forcedType {
+            userType = 'java.util.UUID'
+            converter = 'ai.neptune.usermanager.database.UuidConverter'
+            expression = '.*'
+            types = 'BINARY\\(16\\)'
+          }
+          forcedType {
+            userType = 'ai.neptune.usermanager.database.OrganizationRole'
+            converter = 'ai.neptune.usermanager.database.OrganizationRoleConverter'
+            expression = '.*\\.role'
+          }
+        }
+      }
+      generate {
+        relations = true
+        deprecated = false
+        records = true
+        pojos = true
+        fluentSetters = true
+        daos = true
+        validationAnnotations = true
+      }
+      target {
+        packageName = 'ai.neptune.usermanager.database.generated'
+      }
+    }
+  }
+}
+
+// make jooq task dependent on schema changes: https://github.com/etiennestuder/gradle-jooq-plugin/issues/96
+generateUsermanagerJooqSchemaSource.inputs.files(project.fileTree('../src/main/resources/db/migration'))
+    .withPropertyName("migrations")
+    .withPathSensitivity(PathSensitivity.RELATIVE)
