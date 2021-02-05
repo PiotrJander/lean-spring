@@ -22,7 +22,7 @@ and
 > Probably 95% of all software applications fall into the “not so good for using DDD” categories. Most are
  fundamentally Data Centric – most websites are, most desktop applications are … fundamentally most data updating and reporting applications are data centric.
 
-... and Neptune clearly *is* data-centric. 
+... and X clearly *is* data-centric. 
 
 ## General assumptions
 
@@ -44,7 +44,7 @@ The "strong cohesion, low coupling" principle suggests organizing code around ve
                                         Data access layer (mostly Jooq-generated)
 ```
 
-Contrast this with the current, horizontally-layered approach of Neptune:
+Contrast this with the current, horizontally-layered approach of X:
 
 ```
 Spring REST / Swagger API
@@ -65,7 +65,7 @@ The proposed structure can be better:
    and (B) common classes with focused, clear interfaces and contracts
 * it allows each endpoint to use as many or as few layers as needed
 * it fully exploits Jooq's capabilities for generating repositories and POJOs
-* it does not obfuscate Neptune's fundamentally data-centric nature behind a redundant caricature of DDD
+* it does not obfuscate X's fundamentally data-centric nature behind a redundant caricature of DDD
    in the domain layer
 * [perhaps most important] code in `impl` can be written faster and with less perfectionism: endpoint implementations
    are strictly independent and self-contained, so less-than-perfect code in one endpoint will not spill into other
@@ -159,16 +159,16 @@ There are possible settings in which our current horizontally-layered, pure-DDD,
 would be a good fit:
 
 * When infrastructure is likely to fundamentally change before application code fundamentally changes (HTTP to gRPC,
-   relational database to Cassandra) - not the case for Neptune.
+   relational database to Cassandra) - not the case for X.
 * When the business domain of the product has complex rules, and it has to be modelled in *ubiquitious language*,
    which is independent of the data layer and understandable to non-technical domain experts - not the case for
-   Neptune.
+   X.
 * When there are multiple teams collaborating on code within a single bounded context (single component or database)
    and different teams take care of different aspects of the domain model: different infrastructures etc. - not the
-    case for Neptune.
+    case for X.
 * When the team is likely to fundamentally change (most team members go) before application code fundamentally changes
-   - not the case for Neptune.
+   - not the case for X.
    
-When I assume that those circumstanced are not the case for Neptune, I mean that our requirements and technology stacks
+When I assume that those circumstanced are not the case for X, I mean that our requirements and technology stacks
 are changing so fast (new domain, rewrite of the Leaderboard, pending rewrite of the Backend), that our application
 code is unlikely to outlive either the infrastructure choices or the team itself.
