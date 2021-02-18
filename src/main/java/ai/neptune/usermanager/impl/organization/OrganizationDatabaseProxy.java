@@ -4,6 +4,7 @@ import ai.neptune.usermanager.api.model.OrganizationDto;
 import static ai.neptune.usermanager.database.generated.Tables.ORGANIZATION;
 import ai.neptune.usermanager.database.generated.tables.pojos.User;
 import ai.neptune.usermanager.database.generated.tables.pojos.UserInOrganization;
+import ai.neptune.usermanager.database.generated.tables.records.OrganizationRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,10 @@ public class OrganizationDatabaseProxy {
     }
 
     public void update(OrganizationDto organization) {
-        ; // Unimplemented, because `name` is only field. Changing `name` would require exposing `id` in the API.
+        // Do not be afraid of using records in the domain code where updating only some fields is desired.
+        OrganizationRecord organizationRecord = new OrganizationRecord();
+        organizationRecord.setName("foo");
+        // Unimplemented, because `name` is only field. Changing `name` would require exposing `id` in the API.
     }
 
     public void delete(String organizationName) {
