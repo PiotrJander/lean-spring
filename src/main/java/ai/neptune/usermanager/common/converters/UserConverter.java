@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class UserConverter {
 
     public UserDto toDto(User user) {
+        // TODO use auto conversion
         return UserDto.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
